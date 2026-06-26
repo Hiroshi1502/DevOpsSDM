@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Payment from "./Payment";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -12,6 +13,7 @@ export default function FareCalculator() {
   const [vehicleType, setVehicleType]   = useState("standard");
   const [distanceKm, setDistanceKm]     = useState("");
   const [result, setResult]             = useState(null);
+  const [goPayment, setGoPayment]       = useState(false);
   const [loading, setLoading]           = useState(false);
   const [error, setError]               = useState("");
 
@@ -51,6 +53,15 @@ export default function FareCalculator() {
     setResult(null);
     setError("");
   };
+
+  if (goPayment && result) {
+    return (
+      <Payment
+        fareData={result}
+        onBack={() => setGoPayment(false)}
+      />
+    );
+  }
 
   return (
     <div style={styles.page}>
@@ -141,6 +152,12 @@ export default function FareCalculator() {
             <p style={styles.resultNote}>
               💡 Peak hour surcharges coming in Iteration 2
             </p>
+            <button
+              onClick={() => setGoPayment(true)}
+              style={styles.payButton}
+            >
+              Proceed to Payment
+            </button>
           </div>
         )}
       </div>
@@ -238,4 +255,15 @@ const styles = {
   rowValueBold: { fontSize: "18px", color: "#2563eb", fontWeight: 700 },
   divider: { height: "1px", background: "#bae6fd", margin: "4px 0" },
   resultNote: { fontSize: "11px", color: "#64748b", marginTop: "12px", marginBottom: 0 },
+  payButton: {
+    width: "100%",
+    marginTop: "16px",
+    padding: "12px 18px",
+    border: "none",
+    borderRadius: "10px",
+    background: "#2563eb",
+    color: "#ffffff",
+    fontSize: "15px",
+    cursor: "pointer",
+  },
 };
