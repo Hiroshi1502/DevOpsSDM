@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   backend:
     build: ./backend
@@ -30,8 +29,6 @@ services:
       - POSTGRES_PASSWORD=
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./backend/db/fare_schema.sql:/docker-entrypoint-initdb.d/01_fare_schema.sql
-      - ./backend/db/payment_schema.sql:/docker-entrypoint-initdb.d/02_payment_schema.sql
-
+      - ./backend/db/fare_schema.sql:/docker-entrypoint-initdb.d/fare_schema.sql
 volumes:
   pgdata:
